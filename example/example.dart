@@ -1,8 +1,8 @@
 /// Dart Suno Example
-/// 
+///
 /// This example demonstrates how to use the dart_suno package to interact
 /// with Suno AI music generation API.
-/// 
+///
 /// Before running this example, make sure to:
 /// 1. Replace 'your-api-key-here' with your actual Suno API key
 /// 2. Replace the baseUrl with the correct API endpoint
@@ -64,6 +64,13 @@ Feel the beat''',
             print('  Audio URL | 音频URL: ${song.audioUrl}');
             print('  Image URL | 图片URL: ${song.imageUrl}');
             print('  Status | 状态: ${song.status}');
+            print('  Model Version | 模型版本: ${song.majorModelVersion}');
+            print('  Display Name | 显示名称: ${song.displayName}');
+            print('  Metadata | 元数据:');
+            print('    - Prompt: ${song.metadata?.prompt}');
+            print('    - Tags: ${song.metadata?.tags}');
+            print('    - Type: ${song.metadata?.type}');
+            print('    - Stream: ${song.metadata?.stream}');
           }
         },
         pollInterval: Duration(milliseconds: 500),
@@ -86,7 +93,9 @@ Feel the beat''',
     print('\n=== Chat-based Music Generation | Chat格式音乐生成示例 ===');
     final chatResponse = await suno.chatCompletion(
       messages: [
-        ChatMessage(role: 'user', content: 'Create a cheerful song about spring | 写一首关于春天的轻快歌曲'),
+        ChatMessage(
+            role: 'user',
+            content: 'Create a cheerful song about spring | 写一首关于春天的轻快歌曲'),
       ],
       temperature: 0.8,
       stream: false,
@@ -121,7 +130,6 @@ Feel the beat''',
       ids: ['task-id-1', 'task-id-2', 'task-id-3'],
     );
     print('Batch query result | 批量查询结果: ${batchResponse.code}');
-
   } catch (e) {
     print('Error occurred | 发生错误: $e');
   } finally {
@@ -144,21 +152,25 @@ Future<void> advancedMusicGeneration() async {
     // 第一步：生成歌词
     print('Generating lyrics... | 正在生成歌词...');
     final lyricsResponse = await suno.generateLyrics(
-      prompt: 'Write an inspirational song about dreams and persistence | 写一首关于梦想和坚持的励志歌曲',
+      prompt:
+          'Write an inspirational song about dreams and persistence | 写一首关于梦想和坚持的励志歌曲',
     );
 
     if (lyricsResponse.code != 'success') {
-      throw Exception('Lyrics generation failed | 歌词生成失败: ${lyricsResponse.message}');
+      throw Exception(
+          'Lyrics generation failed | 歌词生成失败: ${lyricsResponse.message}');
     }
 
     // Poll lyrics generation status
     // 轮询歌词生成状态
     final lyricsTaskResult = await suno.pollTaskUntilComplete(
       taskId: lyricsResponse.data!,
-      onProgress: (progress) => print('Lyrics generation progress | 歌词生成进度: $progress'),
+      onProgress: (progress) =>
+          print('Lyrics generation progress | 歌词生成进度: $progress'),
     );
 
-    print('Lyrics generation completed | 歌词生成完成: ${lyricsTaskResult.data?.data?.first.title}');
+    print(
+        'Lyrics generation completed | 歌词生成完成: ${lyricsTaskResult.data?.data?.first.title}');
 
     // Step 2: Generate music using the generated lyrics
     // 第二步：使用生成的歌词创建音乐
@@ -171,14 +183,16 @@ Future<void> advancedMusicGeneration() async {
     );
 
     if (musicResponse.code != 'success') {
-      throw Exception('Music generation failed | 音乐生成失败: ${musicResponse.message}');
+      throw Exception(
+          'Music generation failed | 音乐生成失败: ${musicResponse.message}');
     }
 
     // Poll music generation status
     // 轮询音乐生成状态
     await suno.pollTaskUntilComplete(
       taskId: musicResponse.data!,
-      onProgress: (progress) => print('Music generation progress | 音乐生成进度: $progress'),
+      onProgress: (progress) =>
+          print('Music generation progress | 音乐生成进度: $progress'),
       onComplete: (songs) {
         print('Music generation completed! | 音乐生成完成！');
         for (final song in songs) {
@@ -187,7 +201,6 @@ Future<void> advancedMusicGeneration() async {
         }
       },
     );
-
   } on TimeoutException catch (e) {
     print('Task timeout | 任务超时: $e');
   } catch (e) {

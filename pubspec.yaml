@@ -1,6 +1,6 @@
 name: dart_suno
 description: A powerful Dart library for interacting with Suno AI music generation API. Generate music from text prompts, manage tasks, and retrieve audio files with ease.
-version: 1.0.0
+version: 1.1.0
 homepage: https://github.com/Foodie05/dart_suno
 repository: https://github.com/Foodie05/dart_suno
 issue_tracker: https://github.com/Foodie05/dart_suno/issues

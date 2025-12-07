@@ -77,6 +77,10 @@ Makes my heart beat and shiver''',
           print('歌曲标题: ${song.title}');
           print('音频链接: ${song.audioUrl}');
           print('封面图片: ${song.imageUrl}');
+          print('模型版本: ${song.majorModelVersion}');
+          if (song.metadata != null) {
+            print('GPT提示词: ${song.metadata!.gptDescriptionPrompt}');
+          }
         }
       }
     }
@@ -190,10 +194,25 @@ Future<SunoResponse> fetchTasks({required List<String> ids})
 歌曲数据模型，包含：
 - `id`: 歌曲ID
 - `title`: 歌曲标题
-- `audioUrl`: 音频下载链接
-- `imageUrl`: 封面图片链接
+- `audioUrl`: 音频下载链接（生成中也可获取）
+- `imageUrl`: 封面图片链接（生成中也可获取）
 - `duration`: 歌曲时长
 - `tags`: 风格标签
+- `metadata`: 详细元数据（包含GPT提示词、模型信息等）
+- `displayName`: 创作者显示名称
+- `majorModelVersion`: 主要模型版本
+- `status`: 任务状态
+- `isPublic`: 是否公开
+- `createdAt`: 创建时间
+- 等等...
+
+### SunoSongMetadata
+歌曲详细元数据，包含：
+- `gptDescriptionPrompt`: GPT生成的描述提示词
+- `prompt`: 原始提示词
+- `type`: 生成类型
+- `tags`: 详细标签
+- `stream`: 是否流式生成
 - 等等...
 
 ## 错误处理

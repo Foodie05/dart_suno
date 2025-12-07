@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-06-05
+
+### Added
+- Updated `SunoSongData` model to support detailed song metadata and status fields
+- Added `SunoSongMetadata` model for parsing complex metadata including GPT prompts and tags
+- Support for retrieving preview information (audio/image URLs) during task generation
+- Added new fields: `displayName`, `avatarImageUrl`, `majorModelVersion`, `isPublic`, `hasHook`, etc.
+- Enhanced JSON parsing to handle new API response structure safely
+
 ## [1.0.0] - 2024-01-21
 
 ### Added

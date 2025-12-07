@@ -6,7 +6,7 @@ import 'package:dart_suno/dart_suno.dart';
 // Mock HTTP客户端
 class MockHttpClient extends http.BaseClient {
   final Map<String, dynamic> mockResponses;
-  
+
   MockHttpClient(this.mockResponses);
 
   @override
@@ -14,7 +14,7 @@ class MockHttpClient extends http.BaseClient {
     final url = request.url.toString();
     final method = request.method;
     final key = '$method $url';
-    
+
     if (mockResponses.containsKey(key)) {
       final response = mockResponses[key];
       return http.StreamedResponse(
@@ -23,7 +23,7 @@ class MockHttpClient extends http.BaseClient {
         headers: {'content-type': 'application/json'},
       );
     }
-    
+
     return http.StreamedResponse(
       Stream.fromIterable([utf8.encode('{"error": "Not found"}')]),
       404,
@@ -140,7 +140,7 @@ void main() {
       expect(response.data!.status, equals('SUCCESS'));
       expect(response.data!.progress, equals('100%'));
       expect(response.data!.data, hasLength(1));
-      
+
       final song = response.data!.data!.first;
       expect(song.id, equals('song-id-1'));
       expect(song.title, equals('Test Song'));
@@ -160,7 +160,8 @@ void main() {
 
       expect(response.id, equals('chatcmpl-123'));
       expect(response.choices, hasLength(1));
-      expect(response.choices.first.message.content, equals('Generated music content here'));
+      expect(response.choices.first.message.content,
+          equals('Generated music content here'));
       expect(response.usage.totalTokens, equals(21));
     });
 
@@ -281,7 +282,7 @@ void main() {
     test('TimeoutException should have correct message', () {
       final timeout = Duration(minutes: 5);
       final exception = TimeoutException('Test timeout', timeout);
-      
+
       expect(exception.message, equals('Test timeout'));
       expect(exception.timeout, equals(timeout));
       expect(exception.toString(), contains('TimeoutException: Test timeout'));
